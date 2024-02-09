@@ -12,11 +12,15 @@ public class PlayerGroundedState : PlayerBaseState
 
     public override void EnterState()
     {
-        Debug.Log("Iam currently grounded");
+        //Debug.Log("Iam currently grounded");
     }
 
     public override void UpdateState() { 
         CheckSwitchState();
+    }
+    public override void FixedUpdateState()
+    {
+
     }
 
     public override void ExitState() { }
@@ -29,6 +33,12 @@ public class PlayerGroundedState : PlayerBaseState
         } else if (Ctx.IsMovementPressed)
         {
             SetSubState(Factory.Run());
+        } else if (Ctx.IsAbleToDash && Ctx.IsDashPressed)
+        {
+            SetSubState(Factory.Dash());
+        } else if (Ctx.CurrentAttack > 0)
+        {
+            SetSubState(Factory.Attack());
         }
     }
 

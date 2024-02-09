@@ -7,14 +7,19 @@ public class PlayerStateMachine : MonoBehaviour
 {
     // declare reference variables
     PlayerInput _playerInput;
-    CharacterController _characterController;
     Animator _animator;
+    Rigidbody _rigidBody;
 
     // variables to store player input values
     Vector2 _currentMovementInput;
-    //Vector3 _currentMovement;
     Vector3 _appliedMovement;
     bool _isMovementPressed;
+    bool _isDashPressed = false;
+    bool _isDashing = false;
+    bool _isAbleToDash = true;
+    bool _isAttackPressed = false;
+    bool _isAttacking = false;
+
 
     // variables responsible for player movements
     [Header("Movements Variables")]
@@ -24,7 +29,12 @@ public class PlayerStateMachine : MonoBehaviour
     Vector3 cameraRelativeDirections;
     Vector2 _currentInputVector;
     Vector2 _smoothInputVelocity;
-    
+    public float _dashSpeed;
+    float _currentAttack;
+
+    [Header("Attack Combos!")]
+    public List<AttackSO> _comboList;
+
 
     // state variables
     PlayerBaseState _currentState;
@@ -33,16 +43,27 @@ public class PlayerStateMachine : MonoBehaviour
     // getters and setters
     public Animator Animator { get { return _animator; } }
     public PlayerBaseState CurrentState { get { return _currentState; } set { _currentState = value; } }
+    public Rigidbody Rigidbody { get { return _rigidBody; } set { _rigidBody = value; } }
+    public Vector3 CameraRelativeDirections { get { return cameraRelativeDirections; } }
     public bool IsMovementPressed { get { return _isMovementPressed; } }
     public Vector2 CurrentMovementInput { get { return _currentMovementInput; } }
     public float AppliedMovementX { get { return _appliedMovement.x; } set { _appliedMovement.x = value; } }
     public float AppliedMovementY { get { return _appliedMovement.y; } set { _appliedMovement.y = value; } }
+    public bool IsDashPressed { get { return _isDashPressed; } }
+    public bool IsDashing { get { return _isDashing; } set { _isDashing = value; } }
+    public bool IsAbleToDash { get { return _isAbleToDash; } set { _isAbleToDash = value; } }
+    public float DashSpeed { get { return _dashSpeed; } }
+    public bool IsAttackPressed { get { return _isAttackPressed; } }
+    public bool IsAttacking { get { return _isAttacking; } set { _isAttacking = value; } }
+    public float CurrentAttack { get { return _currentAttack; } set { _currentAttack = value; } }
+    public List<AttackSO> ComboList { get { return _comboList; } }
+
 
     private void Awake()
     {
         // initially set reference variables
         _playerInput = new PlayerInput();
-        _characterController = GetComponent<CharacterController>();
+        _rigidBody = GetComponent<Rigidbody>();
         _animator = GetComponent<Animator>();
 
         // setup state
@@ -54,12 +75,21 @@ public class PlayerStateMachine : MonoBehaviour
         _playerInput.Player.Movement.started += OnMovementInput;
         _playerInput.Player.Movement.canceled += OnMovementInput;
         _playerInput.Player.Movement.performed += OnMovementInput;
+        _playerInput.Player.Dash.started += OnDashInput;
+        _playerInput.Player.Dash.canceled += OnDashInput;
+        _playerInput.Player.Attack.started += OnAttackInput;
+        _playerInput.Player.Attack.canceled += OnAttackInput;
     }
 
     // Update is called once per frame
     void Update()
     {
         _currentState.UpdateStates();
+        _isMovementPressed = _playerInput.Player.Movement.inProgress;
+    }
+    private void FixedUpdate()
+    {
+        _currentState.FixedUpdateState();
         HandleRotation();
         HandleMovement();
     }
@@ -82,7 +112,20 @@ public class PlayerStateMachine : MonoBehaviour
     {
         CameraRelativeControls(_appliedMovement);
         // IT IS THE WALKING BIT
-        _characterController.SimpleMove((cameraRelativeDirections * _moveSpeed));
+        _rigidBody.MovePosition(transform.position + (cameraRelativeDirections * _moveSpeed * Time.deltaTime));
+    }
+
+    IEnumerator DashCooldown()
+    {
+        _isDashing = false;
+        yield return new WaitForSeconds(.5f);
+        _isAbleToDash = true;
+    }
+
+    void ResetAttack()
+    {
+        _isAttacking = false;
+        _currentAttack = 0;
     }
 
     void CameraRelativeControls(Vector3 acceptedInput)
@@ -109,10 +152,20 @@ public class PlayerStateMachine : MonoBehaviour
         cameraRelativeDirections = forwardRelativeVecticalInput + rightRelativeVecticalInput;
     }
 
+    #region Control Input Codes
     void OnMovementInput(InputAction.CallbackContext context)
     {
         _currentMovementInput = context.ReadValue<Vector2>();
-        _isMovementPressed = _currentMovementInput.x != 0 || _currentMovementInput.y != 0;
+    }
+
+    void OnDashInput(InputAction.CallbackContext context)
+    {
+        _isDashPressed = context.ReadValueAsButton();
+    }
+
+    void OnAttackInput(InputAction.CallbackContext context)
+    {
+        _isAttackPressed = context.ReadValueAsButton();
     }
 
     private void OnEnable()
@@ -126,4 +179,5 @@ public class PlayerStateMachine : MonoBehaviour
         // disable the character controls action map
         _playerInput?.Player.Disable();
     }
+    #endregion
 }

@@ -8,7 +8,7 @@ public class PlayerRunState : PlayerBaseState
         : base(currentContext, playerStateFactory) { }
     public override void EnterState() { 
         Ctx.Animator.SetBool("isWalking", true);
-        Debug.Log("I am Running!");
+        //Debug.Log("I am Running!");
     }
 
     public override void UpdateState() {
@@ -16,8 +16,16 @@ public class PlayerRunState : PlayerBaseState
         Ctx.AppliedMovementX = Ctx.CurrentMovementInput.x;
         Ctx.AppliedMovementY = Ctx.CurrentMovementInput.y;
     }
+    public override void FixedUpdateState()
+    {
 
-    public override void ExitState() { }
+    }
+
+    public override void ExitState()
+    {
+        Ctx.AppliedMovementX = 0;
+        Ctx.AppliedMovementY = 0;
+    }
 
     public override void InitializeSubState() { }
 
@@ -25,6 +33,16 @@ public class PlayerRunState : PlayerBaseState
         if (!Ctx.IsMovementPressed)
         {
             SwitchState(Factory.Idle());
+        }
+        
+        if (Ctx.IsDashPressed && Ctx.IsAbleToDash)
+        {
+            SwitchState(Factory.Dash());
+        }
+
+        if (Ctx.IsAttackPressed)
+        {
+            SwitchState(Factory.Attack());
         }
     }
 }

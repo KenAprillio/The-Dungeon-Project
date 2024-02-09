@@ -16,6 +16,10 @@ public class PlayerIdleState : PlayerBaseState
     public override void UpdateState() {
         CheckSwitchState();
     }
+    public override void FixedUpdateState()
+    {
+
+    }
 
     public override void ExitState() { }
 
@@ -25,6 +29,14 @@ public class PlayerIdleState : PlayerBaseState
         if (Ctx.IsMovementPressed)
         {
             SwitchState(Factory.Run());
+        } else if (Ctx.IsDashPressed && Ctx.IsAbleToDash)
+        {
+            SwitchState(Factory.Dash());
+        }
+
+        if (Ctx.IsAttackPressed)
+        {
+            SwitchState(Factory.Attack());
         }
     }
 }
