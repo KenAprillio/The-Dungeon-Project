@@ -34,6 +34,7 @@ public class PlayerStateMachine : MonoBehaviour
 
     [Header("Attack Combos!")]
     public List<AttackSO> _comboList;
+    [HideInInspector] public float _currentDamage;
 
 
     // state variables
@@ -57,6 +58,7 @@ public class PlayerStateMachine : MonoBehaviour
     public bool IsAttacking { get { return _isAttacking; } set { _isAttacking = value; } }
     public float CurrentAttack { get { return _currentAttack; } set { _currentAttack = value; } }
     public List<AttackSO> ComboList { get { return _comboList; } }
+    public float CurrentDamage { set { _currentDamage = value; } }
 
 
     private void Awake()

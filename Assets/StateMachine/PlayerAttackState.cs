@@ -16,7 +16,6 @@ public class PlayerAttackState : PlayerBaseState
         Ctx.AppliedMovementX = 0;
         Ctx.AppliedMovementY = 0;
         Ctx.IsAttacking = true;
-
     }
 
     public override void UpdateState()
@@ -44,7 +43,7 @@ public class PlayerAttackState : PlayerBaseState
     {
         if (Ctx.Animator.GetCurrentAnimatorStateInfo(0).normalizedTime > .9f && Ctx.Animator.GetCurrentAnimatorStateInfo(0).IsTag("Attack"))
         {
-            Debug.Log("Reset Attack!");
+            //Debug.Log("Reset Attack!");
             comboCounter = 0;
             lastComboEnd = Time.time;
             Ctx.Animator.ResetTrigger("isAttacking1");
@@ -75,6 +74,7 @@ public class PlayerAttackState : PlayerBaseState
                 Ctx.AppliedMovementX = 0;
                 Ctx.AppliedMovementY = 0;
                 Ctx.Animator.runtimeAnimatorController = Ctx.ComboList[comboCounter].animatorOV;
+                Ctx.CurrentDamage = Ctx.ComboList[comboCounter].damage;
                 Ctx.Animator.Play("Attack", 0, 0);
                 comboCounter++;
                 lastClickedTime = Time.time;

@@ -8,7 +8,7 @@ public class PlayerIdleState : PlayerBaseState
         : base(currentContext, playerStateFactory) { }
     public override void EnterState() {
         Ctx.Animator.SetBool("isWalking", false);
-        Debug.Log("I am Standing.");
+        //Debug.Log("I am Standing.");
         Ctx.AppliedMovementX = 0;
         Ctx.AppliedMovementY = 0;
     }
