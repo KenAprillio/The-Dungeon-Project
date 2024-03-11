@@ -38,5 +38,8 @@ public class PlayerIdleState : PlayerBaseState
         {
             SwitchState(Factory.Attack());
         }
+
+        if (Ctx.IsHit)
+            SwitchState(Factory.Hit());
     }
 }

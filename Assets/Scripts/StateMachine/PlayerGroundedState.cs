@@ -39,6 +39,9 @@ public class PlayerGroundedState : PlayerBaseState
         } else if (Ctx.CurrentAttack > 0)
         {
             SetSubState(Factory.Attack());
+        } else if (Ctx.IsHit)
+        {
+            SetSubState(Factory.Hit());
         }
     }
 

@@ -29,4 +29,9 @@ public class PlayerStateFactory
         return new PlayerAttackState(_context, this);
     }
 
+    public PlayerBaseState Hit()
+    {
+        return new PlayerHitState(_context, this);
+    }
+
 }

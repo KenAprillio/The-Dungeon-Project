@@ -44,5 +44,8 @@ public class PlayerRunState : PlayerBaseState
         {
             SwitchState(Factory.Attack());
         }
+
+        if (Ctx.IsHit)
+            SwitchState(Factory.Hit());
     }
 }

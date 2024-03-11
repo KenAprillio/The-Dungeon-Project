@@ -19,6 +19,7 @@ public class PlayerStateMachine : MonoBehaviour
     bool _isAbleToDash = true;
     bool _isAttackPressed = false;
     bool _isAttacking = false;
+    [SerializeField] bool _isHit = false;
 
 
     // variables responsible for player movements
@@ -56,6 +57,7 @@ public class PlayerStateMachine : MonoBehaviour
     public float DashSpeed { get { return _dashSpeed; } }
     public bool IsAttackPressed { get { return _isAttackPressed; } }
     public bool IsAttacking { get { return _isAttacking; } set { _isAttacking = value; } }
+    public bool IsHit { get { return _isHit; } set { _isHit = value; } }
     public float CurrentAttack { get { return _currentAttack; } set { _currentAttack = value; } }
     public List<AttackSO> ComboList { get { return _comboList; } }
     public float CurrentDamage { set { _currentDamage = value; } }

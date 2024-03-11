@@ -10,8 +10,6 @@ namespace MBTExample
     public class AgentAttackTarget : Leaf
     {
         public Animator agent;
-        
-
         public override NodeResult Execute()
         {
             agent.SetTrigger("isAttacking");

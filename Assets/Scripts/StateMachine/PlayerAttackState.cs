@@ -62,7 +62,9 @@ public class PlayerAttackState : PlayerBaseState
         {
             SwitchState(Factory.Dash());
         }
-        
+
+        if (Ctx.IsHit)
+            SwitchState(Factory.Hit());
     }
 
     void Attack()
