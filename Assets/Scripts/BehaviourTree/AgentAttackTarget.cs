@@ -9,10 +9,10 @@ namespace MBTExample
     [AddComponentMenu("")]
     public class AgentAttackTarget : Leaf
     {
-        public Animator agent;
+        public Animator Agent;
         public override NodeResult Execute()
         {
-            agent.SetTrigger("isAttacking");
+            Agent.SetTrigger("isAttacking");
             return NodeResult.success;
         }
     }
