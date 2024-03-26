@@ -1,12 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class PlayerAttackState : PlayerBaseState
 {
     public PlayerAttackState(PlayerStateMachine currentContext, PlayerStateFactory playerStateFactory)
         : base(currentContext, playerStateFactory) { }
 
+    Vector3 position;
 
     float lastClickedTime;
     float lastComboEnd;
@@ -16,6 +18,8 @@ public class PlayerAttackState : PlayerBaseState
         Ctx.AppliedMovementX = 0;
         Ctx.AppliedMovementY = 0;
         Ctx.IsAttacking = true;
+
+        FaceMouse();
     }
 
     public override void UpdateState()
@@ -94,5 +98,22 @@ public class PlayerAttackState : PlayerBaseState
         yield return new WaitForSeconds(1f);
         comboCounter = 0;
         lastComboEnd = Time.time;
+    }
+
+    public void FaceMouse()
+    {
+        Ray camRay = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+        RaycastHit floorHit;
+
+        if (Physics.Raycast(camRay, out floorHit, Mathf.Infinity))
+        {
+            
+            position = new Vector3(floorHit.point.x, 0f, floorHit.point.z);
+            position.y = Ctx.transform.position.y;
+        }
+
+        
+        Ctx.transform.LookAt(position);
     }
 }

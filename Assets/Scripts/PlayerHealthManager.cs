@@ -14,21 +14,31 @@ public class PlayerHealthManager : MonoBehaviour
     public float ShieldPoints;
 
     [Header("UI Elements")]
-    private Slider _playerHealth;
-    private Slider _playerShield;
+    [SerializeField] private Slider _playerHealth;
+    [SerializeField] private Slider _playerShield;
     
 
     // Start is called before the first frame update
     void Start()
     {
         CurrentHealthPoints = MaxHealthPoints;
+        _playerHealth.maxValue = MaxHealthPoints;
+        _playerHealth.value = CurrentHealthPoints;
     }
 
     public void PlayerHit(float damage)
     {
         CurrentHealthPoints -= damage;
+        _playerHealth.value = CurrentHealthPoints;
+
         _player.IsHit = true;
+
+        if (CurrentHealthPoints <= 0)
+            PlayerDead();
     }
 
-
+    public void PlayerDead()
+    {
+        this.gameObject.SetActive(false);
+    }
 }

@@ -7,7 +7,7 @@ public class DetectObjectiveService : Service
 {
     public LayerMask mask = -1;
 
-    public float range = 15;
+    public FloatReference range;
     public TransformReference variableToSet = new TransformReference(VarRefMode.DisableConstant);
 
     private Collider[] colliders;
@@ -15,7 +15,7 @@ public class DetectObjectiveService : Service
     public override void Task()
     {
         // Find target
-        colliders = Physics.OverlapSphere(transform.position, range, mask, QueryTriggerInteraction.Ignore);
+        colliders = Physics.OverlapSphere(transform.position, range.Value, mask, QueryTriggerInteraction.Ignore);
         if (colliders.Length > 0)
         {
             variableToSet.Value = colliders[0].transform;
@@ -32,11 +32,11 @@ public class DetectObjectiveService : Service
         {
             Gizmos.color = Color.green;
 
-            Gizmos.DrawWireSphere(transform.position, range);
+            Gizmos.DrawWireSphere(transform.position, range.Value);
             if (colliders.Length > 0)
             {
                 Gizmos.color = Color.red;
-                Gizmos.DrawWireSphere(transform.position, range);
+                Gizmos.DrawWireSphere(transform.position, range.Value);
             }
         }
     }

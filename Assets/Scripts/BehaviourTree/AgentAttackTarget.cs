@@ -10,10 +10,21 @@ namespace MBTExample
     public class AgentAttackTarget : Leaf
     {
         public Animator Agent;
-        public override NodeResult Execute()
+        public TransformReference Target;
+
+        public override void OnEnter()
         {
             Agent.SetTrigger("isAttacking");
-            return NodeResult.success;
+        }
+
+        public override NodeResult Execute()
+        {
+            if(Agent.GetCurrentAnimatorStateInfo(0).normalizedTime > .8f && Agent.GetCurrentAnimatorStateInfo(0).IsTag("Attack"))
+            {
+                Agent.ResetTrigger("isAttacking");
+                return NodeResult.success;
+            } else
+                return NodeResult.running;
         }
     }
 }
