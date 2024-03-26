@@ -13,27 +13,52 @@ public class EnemyWeaponCollider : MonoBehaviour
 
     private void OnEnable()
     {
-        StartCoroutine("DieOvertime");
-
+        // Starts die countdown if its a projectile
+        if (_isProjectile)
+        {
+            StartCoroutine("DieOvertime");
+        }
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.tag == "Player")
+        // Checks if collided object is player or the main objective
+        if(other.tag == "Player" || other.tag == "MainObjective")
         {
+            if (other.tag == "MainObjective")
+            {
+                _damage += 10;
+            }
+
+            // Checks if THIS is a projectile
             if (_isProjectile)
             {
-                other.GetComponent<PlayerHealthManager>().PlayerHit(_damage);
+                // If projectile, apply damage to target and set gameobject false when hit
+
+                if (other.tag == "MainObjective")
+                {
+                    other.GetComponent<MonumentHealthScript>().TakeDamage(_damage);
+                }
+                else
+                {
+                    other.GetComponent<PlayerHealthManager>().PlayerHit(_damage);
+                }
                 gameObject.SetActive(false);
             }
             else
             {
-                other.GetComponent<PlayerHealthManager>().PlayerHit(_healthManager.Damage);
+                // If not projectile, just apply damage
+
+                if (other.tag == "MainObjective")
+                    other.GetComponent<MonumentHealthScript>().TakeDamage(_damage);
+                else
+                    other.GetComponent<PlayerHealthManager>().PlayerHit(_damage);
             }
             Debug.Log("Damaged Player!!");
         }
     }
 
+    // Set gameobject false in 5 seconds after projectile is thrown
     public IEnumerator DieOvertime()
     {
         yield return new WaitForSeconds(5);

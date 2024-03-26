@@ -1350,7 +1350,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b25af8627659c6949b60949c3aa8d91d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectedEditorNode: {fileID: 1891660463887972076}
+  selectedEditorNode: {fileID: 1891660463887972087}
   repeatOnFinish: 0
   maxExecutionsPerTick: 1000
   parent: {fileID: 0}
@@ -1922,7 +1922,7 @@ MonoBehaviour:
   behaviourTree: {fileID: 0}
   runtimePriority: 0
   breakpoint: 0
-  abort: 0
+  abort: 3
   type: 0
   floatReference:
     useConstant: 0
@@ -1942,7 +1942,7 @@ MonoBehaviour:
     mode: 0
     blackboard: {fileID: 0}
     key: 
-    constantValue: 5
+    constantValue: 10
   intReference2:
     useConstant: 1
     mode: 0

@@ -17,6 +17,8 @@ public class EnemySpawner : MonoBehaviour
     public Transform[] waveSource;
     [SerializeField] EnemyPooler _enemyPooler;
 
+    [SerializeField] List<GameObject> waveEnemies;
+
     private IEnumerator coroutine;
 
     private void Start()
@@ -41,7 +43,7 @@ public class EnemySpawner : MonoBehaviour
             {
                 Debug.Log("Spawn!");
 
-                List<GameObject> waveEnemies = new List<GameObject>();
+                //List<GameObject> waveEnemies = new List<GameObject>();
 
                 for (int i = 0; i < wave.FighterSpawnAmount; i++)
                 {
@@ -69,7 +71,8 @@ public class EnemySpawner : MonoBehaviour
 
     public IEnumerator SpawnPeriodically(List<GameObject> enemiesToSpawn, float spawnSpeed)
     {
-        for (int i = 0; i < enemiesToSpawn.Count; i++)
+        int totalEnemies = enemiesToSpawn.Count;
+        for (int i = 0; i < totalEnemies ; i++)
         {
             yield return new WaitForSeconds(spawnSpeed);
 

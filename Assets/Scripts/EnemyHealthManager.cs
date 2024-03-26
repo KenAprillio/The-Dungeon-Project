@@ -56,14 +56,14 @@ public class EnemyHealthManager : MonoBehaviour
     public void EnemyHit(float damage)
     {
         CurrentHealthPoints -= damage;
-        UpdateHealthbar(MaxHealthPoints, CurrentHealthPoints);
+        UpdateHealthbar();
 
         if(CurrentHealthPoints <= 0)
             gameObject.SetActive(false);
     }
 
-    public void UpdateHealthbar(float maxHealth, float currentHealth)
+    public void UpdateHealthbar()
     {
-        _healthbar.fillAmount = currentHealth / maxHealth;
+        _healthbar.fillAmount = CurrentHealthPoints / MaxHealthPoints;
     }
 }

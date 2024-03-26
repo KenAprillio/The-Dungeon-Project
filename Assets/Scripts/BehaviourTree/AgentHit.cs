@@ -20,18 +20,20 @@ namespace MBTExample
         public LayerMask mask = -1;
         public override void OnEnter()
         {
+            // Sets this enemy to attack player
             isAttackPlayer.Value = true;
 
+            // Initiate influence sphere
             _colliders = Physics.OverlapSphere(transform.position, 10, mask, QueryTriggerInteraction.Ignore);
 
+            // Check if there's anyone to influence
             if (_colliders.Length > 0)
             {
-                Debug.Log("Influence others!");
                 for (int i = 0; i < _colliders.Length; i++)
                 {
                     if (_colliders[i].GetComponentInChildren<Blackboard>())
                     {
-                        Debug.Log("The name of the object is " + _colliders[i].name);
+                        // Influence other enemies in radius to attack player
                         Blackboard blackboard = _colliders[i].GetComponentInChildren<Blackboard>();
 
                         BoolVariable attackPlayer = blackboard.GetVariable<BoolVariable>("attackPlayer");
