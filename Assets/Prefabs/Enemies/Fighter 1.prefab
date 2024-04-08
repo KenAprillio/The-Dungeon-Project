@@ -3978,7 +3978,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b25af8627659c6949b60949c3aa8d91d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectedEditorNode: {fileID: 7514883102506331572}
+  selectedEditorNode: {fileID: 7514883102506331557}
   repeatOnFinish: 0
   maxExecutionsPerTick: 1000
   parent: {fileID: 0}
@@ -4050,6 +4050,12 @@ MonoBehaviour:
     blackboard: {fileID: 7514883102506331608}
     key: target
     constantValue: {fileID: 0}
+  isAttackPlayer:
+    useConstant: 0
+    mode: 1
+    blackboard: {fileID: 7514883102506331608}
+    key: attackPlayer
+    constantValue: 0
 --- !u!114 &7514883102506331556
 MonoBehaviour:
   m_ObjectHideFlags: 0
