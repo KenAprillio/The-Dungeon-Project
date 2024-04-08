@@ -117,7 +117,10 @@ public class EnemySpawner : MonoBehaviour
         // Check if there is still enemies, if not then the wave is done
         if (_enemiesLeftInWave.Count == 0)
         {
+            _boonObject.SetActive(true);
+
             IsWaveOngoing = false;
+            GetComponent<MonumentInteract>().IsEnabled = true;
         }
         else
         {
@@ -130,6 +133,5 @@ public class EnemySpawner : MonoBehaviour
         Debug.Log("Removing enemy");
         _enemiesLeftInWave.Remove(enemy);
         CheckWaveStatus();
-        _boonObject.SetActive(true);
     }
 }

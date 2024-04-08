@@ -71,19 +71,20 @@ public class BoonSelector : MonoBehaviour
     {
         // Pick a random number to calculate the boon weight
         int randomPickWeight = Random.Range(0, _totalBoonWeight);
-
-        for (int i = 0; i < ObtainableBoons.Count; i++)
+        int totalBoons = ObtainableBoons.Count;
+        for (int i = 0; i < totalBoons; i++)
         {
+            int randomBoon = Random.Range(0, totalBoons);
             // Check if the choosen boon is already picked
-            if (i != _tempBoonNumber)
+            if (randomBoon != _tempBoonNumber)
             {
                 // Calculate the boon weight
-                randomPickWeight -= ObtainableBoons[i].Weight;
+                randomPickWeight -= ObtainableBoons[randomBoon].Weight;
                 if (randomPickWeight < 0)
                 {
                     // if calculated boon weight is below 0, then pick that boon
-                    _tempBoonNumber = i;
-                    return ObtainableBoons[i];
+                    _tempBoonNumber = randomBoon;
+                    return ObtainableBoons[randomBoon];
                 }
             }
         }

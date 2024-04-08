@@ -17,9 +17,11 @@ public class Interactor : MonoBehaviour
     [SerializeField] private GameObject _promptGameobject;
 
     PlayerInput _playerInput;
+    SetTextToTextbox _setText;
     private void Awake()
     {
         _playerInput = new PlayerInput();
+        _setText = SetTextToTextbox.Instance;
     }
 
     private void Update()
@@ -30,14 +32,22 @@ public class Interactor : MonoBehaviour
         // Check if gameobject found with the targeted layer
         if(_numFound > 0)
         {
-            // Get Interactable Interface from the object
-            var interactable = _colliders[0].GetComponent<IInteractable>();
-            _promptText.text = interactable.InteractionPrompt;
-            _promptGameobject.SetActive(true);
-
-            if(interactable != null && _playerInput.Player.Interact.triggered)
+            if (_colliders[0].GetComponent<IInteractable>() != null && _colliders[0].GetComponent<IInteractable>().isEnabled)
             {
-                interactable.Interact(this);
+                // Get Interactable Interface from the object
+                var interactable = _colliders[0].GetComponent<IInteractable>();
+                _promptText.text = _setText.SetText(interactable.InteractionPrompt);
+
+                _promptGameobject.SetActive(true);
+
+                if (interactable != null && _playerInput.Player.Interact.triggered)
+                {
+                    interactable.Interact(this);
+                }
+            }
+            else
+            {
+                _promptGameobject.SetActive(false);
             }
         } else
         {

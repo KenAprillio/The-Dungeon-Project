@@ -6,6 +6,7 @@ using UnityEngine.Rendering;
 public interface IInteractable
 {
     public string InteractionPrompt { get; }
+    public bool isEnabled { get; }
 
     public bool Interact(Interactor interactor);
 }
