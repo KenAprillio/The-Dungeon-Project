@@ -31,7 +31,7 @@ public class PayloadHealthManager : MonoBehaviour
 
     public void ShootTurret()
     {
-        GameObject currentProjectile = _enemyPooler.SpawnFromPool("Bullet", _projectileSource.position, transform.rotation);
+        GameObject currentProjectile = _enemyPooler.SpawnFromPool("Bullets", _projectileSource.position, _projectileSource.rotation);
 
         currentProjectile.GetComponent<Rigidbody>().AddForce(transform.forward * _projectileForce, ForceMode.Impulse);
         currentProjectile.GetComponent<TurretBullet>().Damage = _damage;
@@ -39,6 +39,8 @@ public class PayloadHealthManager : MonoBehaviour
 
     public void PayloadHit(float damage)
     {
+        
         CurrentHealthPoints -= damage;
+        Debug.Log("Im Hit!" + damage) ;
     }
 }

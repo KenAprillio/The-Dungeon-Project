@@ -18,12 +18,15 @@ public class EnemyWeaponCollider : MonoBehaviour
         {
             StartCoroutine("DieOvertime");
         }
+
+        if (_healthManager != null)
+            _damage = _healthManager.Damage;
     }
 
     private void OnTriggerEnter(Collider other)
     {
         // Checks if collided object is player or the main objective
-        if(other.tag == "Player" || other.tag == "MainObjective")
+        if(other.tag == "Player" || other.tag == "MainObjective" || other.tag == "Turret")
         {
             if (other.tag == "MainObjective")
             {
@@ -39,6 +42,10 @@ public class EnemyWeaponCollider : MonoBehaviour
                 {
                     other.GetComponent<MonumentHealthScript>().TakeDamage(_damage);
                 }
+                else if (other.tag == "Turret")
+                {
+                    other.GetComponent<PayloadHealthManager>().PayloadHit(_damage);
+                }
                 else
                 {
                     other.GetComponent<PlayerHealthManager>().PlayerHit(_damage);
@@ -51,6 +58,8 @@ public class EnemyWeaponCollider : MonoBehaviour
 
                 if (other.tag == "MainObjective")
                     other.GetComponent<MonumentHealthScript>().TakeDamage(_damage);
+                else if (other.tag == "Turret")
+                    other.GetComponent<PayloadHealthManager>().PayloadHit(_damage);
                 else
                     other.GetComponent<PlayerHealthManager>().PlayerHit(_damage);
             }

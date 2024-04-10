@@ -31,6 +31,7 @@ public class TurretBullet : MonoBehaviour
             damageDealt.Value =_damage;
             hittingEnemy.Value = true;
         }
+        gameObject.SetActive(false);
     }
 
     public IEnumerator DieOvertime()

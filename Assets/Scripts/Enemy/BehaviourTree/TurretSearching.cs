@@ -21,6 +21,7 @@ namespace MBTExample
             }
             else
             {
+                payload.ResetTrigger("isAttacking");
                 payload.SetBool("isSearching", true);
                 return NodeResult.running;
             }

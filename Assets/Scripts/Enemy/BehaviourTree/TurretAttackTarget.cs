@@ -10,9 +10,10 @@ namespace MBTExample
     public class TurretAttackTarget : Leaf
     {
         public Transform shootSource;
+        public Animator AgentAnimator;
         public override NodeResult Execute()
         {
-            //Agent.SetTrigger("isAttacking");
+            AgentAnimator.SetTrigger("isAttacking");
             Debug.Log("Im Shooting!");
             return NodeResult.success;
         }
