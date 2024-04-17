@@ -8,7 +8,7 @@ public class BoonSelector : MonoBehaviour
     public BoonsHolder Holder;
     [SerializeField] private BoonButton firstBoonButton;
     [SerializeField] private BoonButton secondBoonButton;
-
+    [SerializeField] private GameObject _boonCollectible;
     public List<Boons> ObtainableBoons;
     private int _totalBoonWeight = 0;
     private int _tempBoonNumber = -1;
@@ -55,6 +55,7 @@ public class BoonSelector : MonoBehaviour
         _timeScaler.IsPaused = false;
         _tempBoonNumber = -1;
         EnemySpawner.Instance.IsWaveOngoing = false;
+        _boonCollectible.SetActive(false);
 
         StartCoroutine(nameof(DisableThis));
     }
@@ -72,10 +73,11 @@ public class BoonSelector : MonoBehaviour
         // Pick a random number to calculate the boon weight
         int randomPickWeight = Random.Range(0, _totalBoonWeight);
         int totalBoons = ObtainableBoons.Count;
+        int randomBoon = Random.Range(0, totalBoons);
+
         for (int i = 0; i < totalBoons; i++)
         {
-            int randomBoon = Random.Range(0, totalBoons);
-            // Check if the choosen boon is already picked
+            /*// Check if the choosen boon is already picked
             if (randomBoon != _tempBoonNumber)
             {
                 // Calculate the boon weight
@@ -86,10 +88,24 @@ public class BoonSelector : MonoBehaviour
                     _tempBoonNumber = randomBoon;
                     return ObtainableBoons[randomBoon];
                 }
+            }*/
+
+            while (randomBoon == _tempBoonNumber)
+            {
+                randomBoon = Random.Range(0, totalBoons);
+            }
+
+            // Calculate the boon weight
+            randomPickWeight -= ObtainableBoons[randomBoon].Weight;
+            if (randomPickWeight < 0)
+            {
+                // if calculated boon weight is below 0, then pick that boon
+                _tempBoonNumber = randomBoon;
+                return ObtainableBoons[randomBoon];
             }
         }
 
-        return ObtainableBoons[0];
+        return ObtainableBoons[randomBoon];
     }
 
     // Remove boon to prevent being picked again in the future

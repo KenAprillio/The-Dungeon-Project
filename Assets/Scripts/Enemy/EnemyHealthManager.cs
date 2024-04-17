@@ -47,6 +47,12 @@ public class EnemyHealthManager : MonoBehaviour
         _healthbarCanvas.transform.LookAt(_healthbar.transform.position + _camera.transform.forward);
     }
 
+    private void OnEnable()
+    {
+        CurrentHealthPoints = MaxHealthPoints;
+        UpdateHealthbar();
+    }
+
     public void ThrowPipe()
     {
         GameObject currentProjectile = _enemyPooler.SpawnFromPool("Pipes", _projectileSource.position, transform.rotation);
@@ -68,6 +74,12 @@ public class EnemyHealthManager : MonoBehaviour
     {
         gameObject.SetActive(false);
         _enemySpawner.RemoveEnemiesFromWave(gameObject);
+
+        // Randomly drops kredits
+        bool dropKredits = Random.value < .5f;
+        if (dropKredits)
+            _enemyPooler.SpawnFromPool("Kredits", transform.position, Quaternion.identity);
+
     }
 
     public void UpdateHealthbar()

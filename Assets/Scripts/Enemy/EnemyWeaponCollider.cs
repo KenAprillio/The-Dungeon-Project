@@ -26,7 +26,7 @@ public class EnemyWeaponCollider : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         // Checks if collided object is player or the main objective
-        if(other.tag == "Player" || other.tag == "MainObjective" || other.tag == "Turret")
+        if (other.tag == "Player" || other.tag == "MainObjective" || other.tag == "Turret" || other.tag == "Wall")
         {
             if (other.tag == "MainObjective")
             {
@@ -42,7 +42,7 @@ public class EnemyWeaponCollider : MonoBehaviour
                 {
                     other.GetComponent<MonumentHealthScript>().TakeDamage(_damage);
                 }
-                else if (other.tag == "Turret")
+                else if (other.tag == "Turret" || other.tag == "Wall")
                 {
                     other.GetComponent<PayloadHealthManager>().PayloadHit(_damage);
                 }
@@ -58,12 +58,15 @@ public class EnemyWeaponCollider : MonoBehaviour
 
                 if (other.tag == "MainObjective")
                     other.GetComponent<MonumentHealthScript>().TakeDamage(_damage);
-                else if (other.tag == "Turret")
+                else if (other.tag == "Turret" || other.tag == "Wall")
+                {
                     other.GetComponent<PayloadHealthManager>().PayloadHit(_damage);
+                    Debug.Log("Damaged Player!!");
+
+                }
                 else
                     other.GetComponent<PlayerHealthManager>().PlayerHit(_damage);
             }
-            Debug.Log("Damaged Player!!");
         }
     }
 

@@ -21,6 +21,10 @@ public class DetectObjectiveService : Service
         if (colliders.Length > 0)
         {
             variableToSet.Value = colliders[0].transform;
+            if (colliders[0].transform.tag == "Wall")
+            {
+                isAttackPlayer.Value = true;
+            }
         }
         else
         {

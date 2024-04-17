@@ -20,6 +20,11 @@ public class PlayerHealthManager : MonoBehaviour
     [SerializeField] private TMP_Text _playerHealthText;
     [SerializeField] private Slider _playerShield;
     [SerializeField] private TMP_Text _playerShieldText;
+    [SerializeField] private TMP_Text _playerKredits;
+
+
+    [Header("Player Kredits")]
+    public int PlayerKredits;
     
 
     // Start is called before the first frame update
@@ -35,6 +40,11 @@ public class PlayerHealthManager : MonoBehaviour
         _playerShield.value = (MaxShieldPoints == 0) ? 0 : CurrentShieldPoints / MaxShieldPoints;
         _playerHealthText.text = CurrentHealthPoints + " / " + MaxHealthPoints;
         _playerShieldText.text = CurrentShieldPoints + " / " + MaxShieldPoints;
+    }
+
+    public void UpdateKredits()
+    {
+        _playerKredits.text = "<sprite=\"kredits\" name=\"kredits_icon\"> " + PlayerKredits;
     }
 
     public void PlayerHit(float damage)

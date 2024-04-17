@@ -6,6 +6,7 @@ public class MonumentInteract : MonoBehaviour, IInteractable
 {
     [SerializeField] private string _prompt;
     private EnemySpawner _enemySpawner;
+    private TimeScaler _canvas;
     [SerializeField] private int _currentWave = 1;
     public bool IsEnabled = true;
 
@@ -15,6 +16,7 @@ public class MonumentInteract : MonoBehaviour, IInteractable
     private void Start()
     {
         _enemySpawner = EnemySpawner.Instance;
+        _canvas = TimeScaler.Instance;
     }
 
     public bool Interact(Interactor interactor)
@@ -29,6 +31,9 @@ public class MonumentInteract : MonoBehaviour, IInteractable
             _enemySpawner.SpawnEnemies(_currentWave, 3);
             _enemySpawner.IsWaveOngoing = true;
             Debug.Log("Start Wave!");
+
+            _canvas.UpdateMainObjective("Gelombang "+ _currentWave + " sedang berlangsung!");
+
             _currentWave++;
             IsEnabled = false;
             return true;

@@ -3870,6 +3870,12 @@ MonoBehaviour:
     blackboard: {fileID: 8011089895431112513}
     key: target
     constantValue: {fileID: 0}
+  isAttackPlayer:
+    useConstant: 0
+    mode: 1
+    blackboard: {fileID: 0}
+    key: 
+    constantValue: 0
 --- !u!114 &8011089895431112517
 MonoBehaviour:
   m_ObjectHideFlags: 0

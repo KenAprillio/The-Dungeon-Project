@@ -840,7 +840,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 250ab77d6e24a8e47ba89d80a6f371ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _healthManager: {fileID: 0}
+  _healthManager: {fileID: 7244976287197182590}
   _isProjectile: 0
 --- !u!65 &1283157994188145104
 BoxCollider:

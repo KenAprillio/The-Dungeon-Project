@@ -9,6 +9,8 @@ TagManager:
   - Floor
   - Boon
   - Turret
+  - Wall
+  - Kredit
   layers:
   - Default
   - TransparentFX

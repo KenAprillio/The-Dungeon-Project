@@ -11,16 +11,20 @@ public class BoonCollectible : MonoBehaviour, IInteractable
     public bool isEnabled => _isEnabled;
     public string InteractionPrompt => _prompt;
 
-    [SerializeField] private GameObject _boonSelector;
+    [SerializeField] private GameObject _boonChooser;
+    private TimeScaler _timeScaler;
 
-    
+    private void Start()
+    {
+        _timeScaler = TimeScaler.Instance;
+    }
 
     public bool Interact(Interactor interactor)
     {
         Debug.Log("Choose a boon!");
 
-        _boonSelector.SetActive(true);
-        gameObject.SetActive(false);
+        _timeScaler.ActivateBoonsUI();
+        //gameObject.SetActive(false);
 
         return true;
     }
