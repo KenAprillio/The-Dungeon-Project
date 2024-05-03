@@ -15,4 +15,5 @@ MonoBehaviour:
   BoonName: Panjang Umur 3
   BoonDescription: <b>Darah</b>mu bertambah lebih banyak.
   Weight: 25
+  BoonImage: {fileID: 21300000, guid: 6cbb698ad9416c744b1b0aecb3c43f20, type: 3}
   HealthAdded: 30

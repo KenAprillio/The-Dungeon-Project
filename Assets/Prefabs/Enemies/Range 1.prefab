@@ -2853,6 +2853,10 @@ MonoBehaviour:
   _projectileSource: {fileID: 381844321730815767}
   _projectileForce: 10
   Damage: 7
+  _skinnedMeshRenderer: {fileID: 7846455335311798903}
+  _blinkIntensity: 3
+  _blinkDuration: 0.15
+  _blinkTimer: 0
 --- !u!195 &3299156096784080121
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -5775,14 +5779,14 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 4835078630258379571, guid: c0822f68dd5cae64eb7e397ec5653396, type: 3}
-  - {fileID: 5878094081397827806, guid: c0822f68dd5cae64eb7e397ec5653396, type: 3}
-  - {fileID: -8634379476891219282, guid: c0822f68dd5cae64eb7e397ec5653396, type: 3}
-  - {fileID: -3522955778539423533, guid: c0822f68dd5cae64eb7e397ec5653396, type: 3}
-  - {fileID: 9185737683893222716, guid: c0822f68dd5cae64eb7e397ec5653396, type: 3}
-  - {fileID: -6087771358165109452, guid: c0822f68dd5cae64eb7e397ec5653396, type: 3}
-  - {fileID: 6699446615349125189, guid: c0822f68dd5cae64eb7e397ec5653396, type: 3}
-  - {fileID: -8274133419916619345, guid: c0822f68dd5cae64eb7e397ec5653396, type: 3}
+  - {fileID: 2100000, guid: 987416d0d0080694fbab117dc9875aab, type: 2}
+  - {fileID: 2100000, guid: d50273ddbc5d2834089ae52fa3ac2bc4, type: 2}
+  - {fileID: 2100000, guid: fd27af5d78871964ab4b0994ce0ad708, type: 2}
+  - {fileID: 2100000, guid: 51d898461ad1ab54b99e9a79769854ca, type: 2}
+  - {fileID: 2100000, guid: b361bfe2e8ee0d549b2e2626dafc0241, type: 2}
+  - {fileID: 2100000, guid: 6f2e5a4129c6dd14ba77e06cd806781f, type: 2}
+  - {fileID: 2100000, guid: e9e80c9a69665e4469d0b50ccd5952d3, type: 2}
+  - {fileID: 2100000, guid: 43f9b16deef786143a8a67eda9a2a295, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

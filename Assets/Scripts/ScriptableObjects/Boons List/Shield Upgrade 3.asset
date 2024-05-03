@@ -15,4 +15,5 @@ MonoBehaviour:
   BoonName: Tahan Lama 3
   BoonDescription: <b>Perisai</b>mu menjadi lebih kuat.
   Weight: 40
+  BoonImage: {fileID: 21300000, guid: b702e8d80489b094b95c8ea6c97851a9, type: 3}
   ShieldAdded: 50

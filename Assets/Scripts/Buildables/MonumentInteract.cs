@@ -32,7 +32,10 @@ public class MonumentInteract : MonoBehaviour, IInteractable
             _enemySpawner.IsWaveOngoing = true;
             Debug.Log("Start Wave!");
 
-            _canvas.UpdateMainObjective("Gelombang "+ _currentWave + " sedang berlangsung!");
+            string mainText = "Gelombang " + _currentWave + " sedang berlangsung!";
+            float amountOfEnemies = _enemySpawner.Waves[_currentWave - 1].RangeSpawnAmount + _enemySpawner.Waves[_currentWave - 1].TankSpawnAmount + _enemySpawner.Waves[_currentWave - 1].FighterSpawnAmount;
+            string subText = "Kalahkan " + amountOfEnemies + " musuh!";
+            _canvas.UpdateMainObjective(mainText, subText);
 
             _currentWave++;
             IsEnabled = false;

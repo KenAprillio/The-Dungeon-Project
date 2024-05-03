@@ -26,6 +26,7 @@ public class PlayerAttackState : PlayerBaseState
     {
         if (Ctx.IsAttackPressed)
         {
+            FaceMouse();
             Attack();
         }
         CheckSwitchState();

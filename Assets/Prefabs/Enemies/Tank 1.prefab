@@ -587,6 +587,10 @@ MonoBehaviour:
   _projectileSource: {fileID: 0}
   _projectileForce: 0
   Damage: 15
+  _skinnedMeshRenderer: {fileID: 7396165340293961336}
+  _blinkIntensity: 3
+  _blinkDuration: 0.15
+  _blinkTimer: 0
 --- !u!195 &197816106851314423
 NavMeshAgent:
   m_ObjectHideFlags: 0

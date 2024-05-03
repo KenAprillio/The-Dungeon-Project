@@ -635,7 +635,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1457983152590589639}
-  m_LocalRotation: {x: 0.22932088, y: -0.66888857, z: 0.6688887, w: -0.22932091}
+  m_LocalRotation: {x: 0.22932087, y: -0.66888857, z: 0.6688887, w: -0.2293209}
   m_LocalPosition: {x: -0.000980121, y: 0.015199812, z: -0.006155898}
   m_LocalScale: {x: 1, y: 0.9999999, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1588,7 +1588,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4043663450794707752}
-  m_LocalRotation: {x: -0.057513725, y: 0.068102136, z: -0.009969293, w: 0.9959693}
+  m_LocalRotation: {x: -0.057513732, y: 0.068102136, z: -0.009969295, w: 0.9959693}
   m_LocalPosition: {x: -1.5942802e-14, y: 0.0015221956, z: -4.3039491e-10}
   m_LocalScale: {x: 1.0000001, y: 1, z: 1.0000001}
   m_ConstrainProportionsScale: 0
@@ -1851,13 +1851,13 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 8554655104631171556, guid: af42b52998d6b2f4791b04e09671bfea, type: 3}
-  - {fileID: 6098924145076851180, guid: af42b52998d6b2f4791b04e09671bfea, type: 3}
-  - {fileID: -4288583467269203127, guid: af42b52998d6b2f4791b04e09671bfea, type: 3}
-  - {fileID: -6629797300637803691, guid: af42b52998d6b2f4791b04e09671bfea, type: 3}
-  - {fileID: -6478536213147159724, guid: af42b52998d6b2f4791b04e09671bfea, type: 3}
-  - {fileID: -3846018093981099296, guid: af42b52998d6b2f4791b04e09671bfea, type: 3}
-  - {fileID: -2813467912831258332, guid: af42b52998d6b2f4791b04e09671bfea, type: 3}
+  - {fileID: 2100000, guid: 6d5b78c58d24e0746a3e7517bb9817ea, type: 2}
+  - {fileID: 2100000, guid: 1e55248d456325344a6f5efa7fb94ba8, type: 2}
+  - {fileID: 2100000, guid: ad6c2ccca04a3064b9bf4b019918b231, type: 2}
+  - {fileID: 2100000, guid: ca928d4b3b0dd9849bbd2f3bc89065c1, type: 2}
+  - {fileID: 2100000, guid: f8bf05d27d5fd634aa2e43ee97022950, type: 2}
+  - {fileID: 2100000, guid: 6f2e5a4129c6dd14ba77e06cd806781f, type: 2}
+  - {fileID: 2100000, guid: 03ae321422437d647bda1ae36fa24342, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -3625,6 +3625,10 @@ MonoBehaviour:
   _projectileSource: {fileID: 0}
   _projectileForce: 0
   Damage: 10
+  _skinnedMeshRenderer: {fileID: 3381150345411366477}
+  _blinkIntensity: 2
+  _blinkDuration: 0.15
+  _blinkTimer: 0
 --- !u!195 &7244976287197182585
 NavMeshAgent:
   m_ObjectHideFlags: 0

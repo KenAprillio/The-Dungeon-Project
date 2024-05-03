@@ -24,10 +24,16 @@ public class TimeScaler : MonoBehaviour
     [SerializeField] private RectTransform _subTextTransform;
     [SerializeField] private TMP_Text _subText;
 
+    [Header("Pause Menu Reference")]
+    [SerializeField] private GameObject _pauseMenu;
 
     [Header("Pause Time")]
     public bool IsPaused = false;
     public float SlowMoTransitionTime;
+
+    [Header("Cameras References")]
+    [SerializeField] private GameObject _mainCamera;
+    [SerializeField] private GameObject _storyCamera;
 
     private void Awake()
     {
@@ -58,12 +64,19 @@ public class TimeScaler : MonoBehaviour
         }
     }
 
+    public void PauseGame()
+    {
+        IsPaused = !IsPaused;
+        _pauseMenu.SetActive(IsPaused);
+    }
+
     // ====================== OBJECTIVE UI ANIMATOR
     #region Objective UI
 
-    public void ShowMainObjective(string text)
+    public void ShowMainObjective(string text, string subText)
     {
         SetMainText(text);
+        SetSubText(subText);
         LeanTween.move(_mainTextTransform, new Vector3(-276, -133, 0), .5f).setEaseOutQuart().setDelay(.5f);
     }
 
@@ -92,10 +105,10 @@ public class TimeScaler : MonoBehaviour
         _subText.text = text;
     }
 
-    public void UpdateMainObjective(string text)
+    public void UpdateMainObjective(string text, string subText)
     {
-        Action action = () => ShowMainObjective(text);
-        LeanTween.move(_mainTextTransform, new Vector3(282, -133, 0), .5f).setEaseInQuart().setOnComplete(action).setLoopOnce();
+        Action action = () => ShowMainObjective(text, subText);
+        LeanTween.move(_mainTextTransform, new Vector3(282, -133, 0), .5f).setEaseInQuart().setOnComplete(action);
     }
 
     #endregion
@@ -142,7 +155,15 @@ public class TimeScaler : MonoBehaviour
 
         StartCoroutine(coroutine);
     }
-    
+
+    #endregion
+
+    // ====================== CAMERA OPERATOR
+    #region Cameras
+    public void ActivateStoryCamera()
+    {
+
+    }
     #endregion
 
     IEnumerator DeactivateUI(GameObject uiObject)

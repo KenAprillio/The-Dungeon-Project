@@ -65,7 +65,7 @@ public class PayloadHealthManager : MonoBehaviour
         GameObject currentProjectile = _enemyPooler.SpawnFromPool("Bullets", _projectileSource.position, _projectileSource.rotation);
 
         // Give force to the bullet and add damage
-        currentProjectile.GetComponent<Rigidbody>().AddForce(transform.forward * _projectileForce, ForceMode.Impulse);
+        currentProjectile.GetComponent<Rigidbody>().AddForce(_projectileSource.transform.forward * _projectileForce, ForceMode.Impulse);
         currentProjectile.GetComponent<TurretBullet>().Damage = _damage;
     }
 

@@ -29,7 +29,7 @@ public class PlayerDashState : PlayerBaseState
 
     public override void ExitState()
     {
-        previousVelocity.y = 0;
+        previousVelocity = new Vector3(0,0,0);
         Ctx.Rigidbody.velocity = previousVelocity;
         Ctx.IsDashing = false;
 

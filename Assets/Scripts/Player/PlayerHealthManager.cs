@@ -34,6 +34,16 @@ public class PlayerHealthManager : MonoBehaviour
         UpdateHealthbar();
     }
 
+    public void ActivatePlayer()
+    {
+        _player.enabled = true;
+    }
+
+    public void DeactivatePlayer()
+    {
+        _player.enabled = false;
+    }
+
     public void UpdateHealthbar()
     {
         _playerHealth.value = (MaxHealthPoints == 0) ? 0 : CurrentHealthPoints / MaxHealthPoints;
@@ -49,7 +59,22 @@ public class PlayerHealthManager : MonoBehaviour
 
     public void PlayerHit(float damage)
     {
-        CurrentHealthPoints -= damage;
+        if (CurrentShieldPoints > 0)
+        {
+            CurrentShieldPoints -= damage;
+            if (CurrentShieldPoints < 0)
+            {
+                CurrentShieldPoints = 0;
+            }
+        }
+        else
+        {
+            CurrentHealthPoints -= damage;
+            if (CurrentHealthPoints < 0)
+            {
+                CurrentShieldPoints = 0;
+            }
+        }
         UpdateHealthbar();
 
         _player.IsHit = true;

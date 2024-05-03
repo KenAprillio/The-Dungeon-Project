@@ -10,7 +10,15 @@ TrueTypeFontImporter:
   includeFontData: 1
   fontNames:
   - Montserrat
-  fallbackFontReferences: []
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: b2d7b15690b6f5a46ac1c7f0fea4a066, type: 3}
+  - {fileID: 12800000, guid: f2f429139ce268b44b291ed5253962a7, type: 3}
+  - {fileID: 12800000, guid: a4cfd476634380745be430451a1510a0, type: 3}
+  - {fileID: 12800000, guid: 26b1484078f9008429cf1fa5d8098ba3, type: 3}
+  - {fileID: 12800000, guid: 11bb56ace0672a944978b6e84dbce0cc, type: 3}
+  - {fileID: 12800000, guid: 4280cd70383b647479c760ec098d8893, type: 3}
+  - {fileID: 12800000, guid: 2244559a99c45eb4eaecc24ddeca98b7, type: 3}
+  - {fileID: 12800000, guid: 752850c947348b64fadb04c9df5678a7, type: 3}
   customCharacters: 
   fontRenderingMode: 0
   ascentCalculationMode: 1

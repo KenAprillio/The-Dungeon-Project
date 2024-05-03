@@ -62,6 +62,8 @@ public class PlayerStateMachine : MonoBehaviour
     public List<AttackSO> ComboList { get { return _comboList; } }
     public float CurrentDamage { set { _currentDamage = value; } }
 
+    bool _isPaused = false;
+
 
     private void Awake()
     {
@@ -100,7 +102,7 @@ public class PlayerStateMachine : MonoBehaviour
 
     void HandleRotation()
     {
-        CameraRelativeControls(_currentMovementInput);
+        CameraRelativeControls(_appliedMovement);
         // the current rotation of our character
         Quaternion currentRotation = transform.rotation;
 
@@ -172,6 +174,11 @@ public class PlayerStateMachine : MonoBehaviour
         _isAttackPressed = context.ReadValueAsButton();
     }
 
+    void OnPause()
+    {
+        TimeScaler.Instance.PauseGame();
+    }
+
     private void OnEnable()
     {
         // enable the character controls action map
@@ -182,6 +189,7 @@ public class PlayerStateMachine : MonoBehaviour
     {
         // disable the character controls action map
         _playerInput?.Player.Disable();
+        _animator.SetBool("isWalking", false);
     }
     #endregion
 }
