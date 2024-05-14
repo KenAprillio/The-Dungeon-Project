@@ -14,6 +14,7 @@ public class PlayerHealthManager : MonoBehaviour
     public float CurrentHealthPoints;
     public float CurrentShieldPoints;
     public float MaxShieldPoints;
+    [SerializeField] private float _percentToRecover;
 
     [Header("UI Elements")]
     [SerializeField] private Slider _playerHealth;
@@ -31,6 +32,20 @@ public class PlayerHealthManager : MonoBehaviour
     void Start()
     {
         CurrentHealthPoints = MaxHealthPoints;
+        UpdateHealthbar();
+    }
+    
+    public void RecoverPlayer()
+    {
+        float healTotal = CurrentHealthPoints + ((_percentToRecover / 100) * MaxHealthPoints);
+        CurrentHealthPoints = (healTotal > MaxHealthPoints) ? MaxHealthPoints : healTotal;
+
+        if (MaxShieldPoints > 0)
+        {
+            float healShieldTotal = CurrentShieldPoints + ((_percentToRecover / 100) * MaxShieldPoints);
+            CurrentShieldPoints = (healShieldTotal > MaxShieldPoints) ? MaxShieldPoints : healShieldTotal;
+        }
+
         UpdateHealthbar();
     }
 
@@ -85,6 +100,8 @@ public class PlayerHealthManager : MonoBehaviour
 
     public void PlayerDead()
     {
-        this.gameObject.SetActive(false);
+        //this.gameObject.SetActive(false);
+        GetComponent<PlayerStateMachine>().IsDead = true;
+        TimeScaler.Instance.ActivateLosePanel();
     }
 }

@@ -21,6 +21,7 @@ public class EnemyHealthManager : MonoBehaviour
     [SerializeField] private GameObject _projectile;
     [SerializeField] private Transform _projectileSource;
     [SerializeField] private float _projectileForce;
+    [SerializeField] private ParticleSystem _particle;
     public float Damage;
 
     [Header("Enemy Flash Damage")]
@@ -29,8 +30,13 @@ public class EnemyHealthManager : MonoBehaviour
     [SerializeField] private float _blinkIntensity;
     [SerializeField] private float _blinkDuration;
     [SerializeField] private float _blinkTimer;
-    private Coroutine _damageFlashCoroutine; 
+    private Coroutine _damageFlashCoroutine;
+    [SerializeField] bool _isBoss;
 
+    [Header("Enemy AI")]
+    [SerializeField] private GameObject _behaviourTree;
+
+    private Animator _animator;
 
     private EnemyPooler _enemyPooler;
     private EnemySpawner _enemySpawner;
@@ -38,6 +44,7 @@ public class EnemyHealthManager : MonoBehaviour
     private void Awake()
     {
         _materials = new Material[_skinnedMeshRenderer.materials.Length];
+        _animator = GetComponent<Animator>();
 
         for (int i = 0; i < _skinnedMeshRenderer.materials.Length; i++)
         {
@@ -56,8 +63,12 @@ public class EnemyHealthManager : MonoBehaviour
 
         Blackboard tree = GetComponentInChildren<Blackboard>();
 
-        TransformVariable mainObjective = tree.GetVariable<TransformVariable>("mainObjective");
-        mainObjective.Value = GameObject.FindGameObjectWithTag("MainObjective").GetComponent<Transform>();
+        if (!_isBoss)
+        {
+            TransformVariable mainObjective = tree.GetVariable<TransformVariable>("mainObjective");
+            mainObjective.Value = GameObject.FindGameObjectWithTag("MainObjective").GetComponent<Transform>();
+        }
+        
 
         GetComponent<NavMeshAgent>().enabled = true;
     }
@@ -69,10 +80,33 @@ public class EnemyHealthManager : MonoBehaviour
 
     private void OnEnable()
     {
+        if (_particle)
+            _particle.Stop();
+
         CurrentHealthPoints = MaxHealthPoints;
         UpdateHealthbar();
 
         SetFlashColor();
+    }
+
+    public void ActivateParticles()
+    {
+        _particle.Play();
+    }
+
+    public void DeactivateParticles()
+    {
+        _particle.Stop();
+    }
+
+    public void ActivateBehaviour()
+    {
+        _behaviourTree.SetActive(true);
+    }
+
+    public void DeactivateBehaviour()
+    {
+        _behaviourTree.SetActive(false);
     }
 
     public void ThrowPipe()
@@ -139,13 +173,23 @@ public class EnemyHealthManager : MonoBehaviour
 
     public void EnemyDie()
     {
-        gameObject.SetActive(false);
-        _enemySpawner.RemoveEnemiesFromWave(gameObject);
+        if (!_isBoss)
+        {
+            gameObject.SetActive(false);
+            _enemySpawner.RemoveEnemiesFromWave(gameObject);
 
-        // Randomly drops kredits
-        bool dropKredits = Random.value < .5f;
-        if (dropKredits)
-            _enemyPooler.SpawnFromPool("Kredits", transform.position, Quaternion.identity);
+            // Randomly drops kredits
+            bool dropKredits = Random.value < .5f;
+            if (dropKredits)
+                _enemyPooler.SpawnFromPool("Kredits", transform.position, Quaternion.identity);
+        }
+        else
+        {
+            _animator.SetBool("isDead", true);
+            _behaviourTree.SetActive(false);
+            Fungus.Flowchart.BroadcastFungusMessage("BossDefeated");
+        }
+        
 
     }
 

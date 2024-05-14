@@ -19,6 +19,7 @@ public class PlayerStateMachine : MonoBehaviour
     bool _isAbleToDash = true;
     bool _isAttackPressed = false;
     bool _isAttacking = false;
+    public bool IsDead = false;
     [SerializeField] bool _isHit = false;
 
 
@@ -31,10 +32,12 @@ public class PlayerStateMachine : MonoBehaviour
     Vector2 _currentInputVector;
     Vector2 _smoothInputVelocity;
     public float _dashSpeed;
+    [SerializeField] private float _dashDuration;
     float _currentAttack;
 
     [Header("Attack Combos!")]
     public List<AttackSO> _comboList;
+    [SerializeField] ParticleSystem _particle;
     [HideInInspector] public float _currentDamage;
 
 
@@ -55,14 +58,16 @@ public class PlayerStateMachine : MonoBehaviour
     public bool IsDashing { get { return _isDashing; } set { _isDashing = value; } }
     public bool IsAbleToDash { get { return _isAbleToDash; } set { _isAbleToDash = value; } }
     public float DashSpeed { get { return _dashSpeed; } }
+    public float DashDuration { get { return _dashDuration; } }
     public bool IsAttackPressed { get { return _isAttackPressed; } }
-    public bool IsAttacking { get { return _isAttacking; } set { _isAttacking = value; } }
+    //public bool IsAttacking { get { return _isAttacking; } set { _isAttacking = value; } }
     public bool IsHit { get { return _isHit; } set { _isHit = value; } }
     public float CurrentAttack { get { return _currentAttack; } set { _currentAttack = value; } }
     public List<AttackSO> ComboList { get { return _comboList; } }
     public float CurrentDamage { set { _currentDamage = value; } }
-
+    
     bool _isPaused = false;
+    
 
 
     private void Awake()
@@ -116,12 +121,15 @@ public class PlayerStateMachine : MonoBehaviour
 
     void HandleMovement()
     {
+        
         CameraRelativeControls(_appliedMovement);
         // IT IS THE WALKING BIT
-        _rigidBody.MovePosition(transform.position + (cameraRelativeDirections * _moveSpeed * Time.deltaTime));
+
+        if (!_isAttackPressed) 
+            _rigidBody.MovePosition(transform.position + (cameraRelativeDirections * _moveSpeed * Time.deltaTime));
     }
 
-    IEnumerator DashCooldown()
+    public IEnumerator DashCooldown()
     {
         _isDashing = false;
         yield return new WaitForSeconds(.5f);
@@ -130,8 +138,18 @@ public class PlayerStateMachine : MonoBehaviour
 
     public void ResetAttack()
     {
-        _isAttacking = false;
+        //_isAttacking = false;
         _currentAttack = 0;
+    }
+
+    public void ActivateParticles()
+    {
+        _particle.Play();
+    }
+
+    public void DeactivateParticles()
+    {
+        _particle.Stop();
     }
 
     void CameraRelativeControls(Vector3 acceptedInput)
@@ -190,6 +208,8 @@ public class PlayerStateMachine : MonoBehaviour
         // disable the character controls action map
         _playerInput?.Player.Disable();
         _animator.SetBool("isWalking", false);
+        _rigidBody.velocity = Vector3.zero;
+        ResetAttack();
     }
     #endregion
 }

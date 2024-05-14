@@ -14,6 +14,7 @@ public class EnemySpawner : MonoBehaviour
         public float FighterSpawnAmount;
         public float RangeSpawnAmount;
         public float TankSpawnAmount;
+        public float TimeToSpawn;
     }
     public bool IsWaveOngoing;
     [SerializeField] private GameObject _boonObject;
@@ -27,6 +28,13 @@ public class EnemySpawner : MonoBehaviour
     // list of enemies spawned in this wave
     [SerializeField] List<GameObject> _enemiesToSpawn;
     [SerializeField] List<GameObject> _enemiesLeftInWave;
+
+    [Header("Cutscene Stuff")]
+    [SerializeField] private GameObject _bossCutscene;
+
+    int _waveNumber;
+    TimeScaler _canvas;
+    AudioManager _audioManager;
 
     private IEnumerator coroutine;
 
@@ -46,26 +54,19 @@ public class EnemySpawner : MonoBehaviour
     {
         // Get Enemy Pooler Instance
         _enemyPooler = EnemyPooler.Instance;
-    }
-
-    private void Update()
-    {
-        
-    }
-
-    private void OnEnable()
-    {
-        //SpawnEnemies(1, 3);
+        _canvas = TimeScaler.Instance;
+        _audioManager = AudioManager.Instance;
     }
 
     // Spawn Enemies with the corresponding wave
-    public void SpawnEnemies(int waveNumber, float spawnSpeed)
+    public void SpawnEnemies(int waveNumber)
     {
         foreach (Wave wave in Waves)
         {
             if (wave.WaveNumber == waveNumber)
             {
                 Debug.Log("Spawn!");
+                _waveNumber = waveNumber;
 
                 // Add Fighter type enemies
                 for (int i = 0; i < wave.FighterSpawnAmount; i++)
@@ -91,7 +92,7 @@ public class EnemySpawner : MonoBehaviour
                 _enemiesLeftInWave.AddRange(_enemiesToSpawn);
 
                 // invoke periodic spawn
-                coroutine = SpawnPeriodically(_enemiesToSpawn, spawnSpeed);
+                coroutine = SpawnPeriodically(_enemiesToSpawn, wave.TimeToSpawn);
                 StartCoroutine(coroutine);
             }
         }
@@ -117,10 +118,23 @@ public class EnemySpawner : MonoBehaviour
         // Check if there is still enemies, if not then the wave is done
         if (_enemiesLeftInWave.Count == 0)
         {
-            _boonObject.SetActive(true);
+            // Updates Objective UI
+            string mainText = "Persiapan gelombang selanjutnya";
+            string subText = "Ambil upgrade baru";
+            _canvas.UpdateMainObjective(mainText, subText);
+
+            // Activates boon object
+            if(_waveNumber != 5)
+            {
+                _audioManager.PlayMusic(_audioManager.inbetweenMusic);
+                _boonObject.SetActive(true);
+            }
 
             IsWaveOngoing = false;
             GetComponent<MonumentInteract>().IsEnabled = true;
+
+            // Activate corresponding dialogue in the end of certain waves
+            ActivateDialogue();
         }
         else
         {
@@ -132,6 +146,39 @@ public class EnemySpawner : MonoBehaviour
     {
         Debug.Log("Removing enemy");
         _enemiesLeftInWave.Remove(enemy);
+
+        string subtext = "Kalahkan " + _enemiesLeftInWave.Count + " musuh!";
+        _canvas.SetSubText(subtext);
+
         CheckWaveStatus();
+    }
+
+    void ActivateDialogue()
+    {
+        if (_waveNumber == 1)
+        {
+            Fungus.Flowchart.BroadcastFungusMessage("RepairMonumentDialogue");
+        }
+
+        if (_waveNumber == 2)
+        {
+            Fungus.Flowchart.BroadcastFungusMessage("BuildablesDialogue");
+        }
+
+        if (_waveNumber == 5)
+        {
+            Invoke(nameof(EnterBossCutscene), 2f);
+        }
+    }
+
+    void EnterBossCutscene()
+    {
+        _bossCutscene.SetActive(true);
+
+    }
+
+    public void ActivateDialogue(string message)
+    {
+        Fungus.Flowchart.BroadcastFungusMessage(message);
     }
 }

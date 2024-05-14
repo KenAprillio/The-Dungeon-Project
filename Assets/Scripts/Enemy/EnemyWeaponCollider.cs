@@ -70,6 +70,8 @@ public class EnemyWeaponCollider : MonoBehaviour
         }
     }
 
+    
+
     // Set gameobject false in 5 seconds after projectile is thrown
     public IEnumerator DieOvertime()
     {

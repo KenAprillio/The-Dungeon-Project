@@ -1,9 +1,11 @@
+using Fungus;
 using Newtonsoft.Json.Bson;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class TimeScaler : MonoBehaviour
 {
@@ -24,6 +26,11 @@ public class TimeScaler : MonoBehaviour
     [SerializeField] private RectTransform _subTextTransform;
     [SerializeField] private TMP_Text _subText;
 
+    [Header("Win & Lose UI References")]
+    [SerializeField] private GameObject _winUI;
+    [SerializeField] private GameObject _loseUI;
+
+
     [Header("Pause Menu Reference")]
     [SerializeField] private GameObject _pauseMenu;
 
@@ -34,6 +41,13 @@ public class TimeScaler : MonoBehaviour
     [Header("Cameras References")]
     [SerializeField] private GameObject _mainCamera;
     [SerializeField] private GameObject _storyCamera;
+
+    [Header("Tutorial UIs")]
+    [SerializeField] private GameObject _moveTutor;
+    [SerializeField] private GameObject _upgradeTutor;
+    [SerializeField] private GameObject _waveTutor;
+    [SerializeField] private GameObject _attackTutor;
+    [SerializeField] private GameObject _buildTutor;
 
     private void Awake()
     {
@@ -70,9 +84,15 @@ public class TimeScaler : MonoBehaviour
         _pauseMenu.SetActive(IsPaused);
     }
 
+    
+
     // ====================== OBJECTIVE UI ANIMATOR
     #region Objective UI
 
+    public void ShowMainObjective()
+    {
+        LeanTween.move(_mainTextTransform, new Vector3(-276, -133, 0), .5f).setEaseOutQuart().setDelay(.5f);
+    }
     public void ShowMainObjective(string text, string subText)
     {
         SetMainText(text);
@@ -80,19 +100,10 @@ public class TimeScaler : MonoBehaviour
         LeanTween.move(_mainTextTransform, new Vector3(-276, -133, 0), .5f).setEaseOutQuart().setDelay(.5f);
     }
 
-    public void HideMainObjective()
+    public void ShowSubObjective(string subText)
     {
-        LeanTween.move(_mainTextTransform, new Vector3(282, -133, 0), .5f);
-    }
-
-    public void ShowSubObjective()
-    {
-
-    }
-
-    public void HideSubObjective()
-    {
-
+        SetSubText(subText);
+        LeanTween.move(_subTextTransform, new Vector3(228, -20, 0), .5f).setEaseOutQuart().setDelay(.5f);
     }
 
     public void SetMainText(string text)
@@ -109,6 +120,12 @@ public class TimeScaler : MonoBehaviour
     {
         Action action = () => ShowMainObjective(text, subText);
         LeanTween.move(_mainTextTransform, new Vector3(282, -133, 0), .5f).setEaseInQuart().setOnComplete(action);
+    }
+
+    public void UpdateSubObjective(string subText)
+    {
+        Action action = () => ShowSubObjective(subText);
+        LeanTween.move(_subTextTransform, new Vector3(781, -20, 0), .5f).setEaseInQuart().setOnComplete(action);
     }
 
     #endregion
@@ -166,9 +183,108 @@ public class TimeScaler : MonoBehaviour
     }
     #endregion
 
+    // ====================== WIN LOSE PANEL
+    #region Win Lose
+
+    public void ActivateLosePanel()
+    {
+        _loseUI.SetActive(true);
+    }
+
+    public void ActivateWinPanel()
+    {
+        _winUI.SetActive(true);
+    }
+
+    #endregion
+
+    // ====================== TUTORIALS PANEL
+    #region Tutorials
+    public void ShowMovementTutor()
+    {
+        IsPaused = true;
+        _moveTutor.SetActive(true);
+        AnimateTutorialIn(_moveTutor.GetComponent<RectTransform>());
+    }
+
+    public void ShowUpgradeTutor()
+    {
+        IsPaused = true;
+        _upgradeTutor.SetActive(true);
+        AnimateTutorialIn(_upgradeTutor.GetComponent<RectTransform>());
+    }
+
+    public void ShowWaveTutor()
+    {
+        IsPaused = true;
+        _waveTutor.SetActive(true);
+        AnimateTutorialIn(_waveTutor.GetComponent<RectTransform>());
+    }
+
+    public void ShowAttackTutor()
+    {
+        IsPaused = true;
+        _attackTutor.SetActive(true);
+        AnimateTutorialIn(_attackTutor.GetComponent<RectTransform>());
+    }
+
+    public void ShowBuildTutor()
+    {
+        IsPaused = true;
+        _buildTutor.SetActive(true);
+        AnimateTutorialIn(_buildTutor.GetComponent<RectTransform>());
+    }
+
+    void AnimateTutorialIn(RectTransform tutorialPanel)
+    {
+        LeanTween.move(tutorialPanel, new Vector3(0, 0, 0), .75f).setEaseOutQuart().setIgnoreTimeScale(true);
+    }
+
+    public void AnimateTutorialOut(RectTransform tutorialPanel)
+    {
+        IsPaused = false;
+        Action action = () => DeactivateUI(tutorialPanel.gameObject);
+        LeanTween.move(tutorialPanel, new Vector3(0, -1000, 0), .75f).setEaseOutQuart().setIgnoreTimeScale(true).setOnComplete(action);
+
+    }
+
+    #endregion
+
+
+    // ====================== SCENE LOADING
+    #region Scene Loading
+
+    public void ResetScene()
+    {
+        StartCoroutine(LoadNextScene(SceneManager.GetActiveScene().buildIndex));
+    }
+
+    public void BackToMenu()
+    {
+        StartCoroutine(LoadNextScene(SceneManager.GetActiveScene().buildIndex - 1));
+    }
+
+    public IEnumerator LoadNextScene(int sceneIndex)
+    {
+        yield return new WaitForSeconds(2f);
+
+        AsyncOperation loadScene = SceneManager.LoadSceneAsync(sceneIndex);
+
+        while (!loadScene.isDone)
+        {
+            yield return null;
+        }
+    }
+
+    #endregion
+
+
+
+
     IEnumerator DeactivateUI(GameObject uiObject)
     {
         yield return new WaitForSeconds(.5f);
         uiObject.SetActive(false);
     }
+
 }

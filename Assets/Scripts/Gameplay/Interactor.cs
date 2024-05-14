@@ -19,7 +19,10 @@ public class Interactor : MonoBehaviour
     [SerializeField] private Animator _canvasAnimator;
     [SerializeField] private TMP_Text _promptText;
     [SerializeField] private GameObject _promptGameobject;
+    [SerializeField] private GameObject _secondPromptGameobject;
+    [SerializeField] private TMP_Text _secondPromptText;
 
+    MonumentHealthScript _monumentHealthScript;
     PlayerInput _playerInput;
     SetTextToTextbox _setText;
     TimeScaler _timeScaler;
@@ -64,11 +67,24 @@ public class Interactor : MonoBehaviour
                     {
                         interactable.Interact(this);
                     }
+
+                    if (_colliders[0].GetComponent<ISecondInteractable>() != null)
+                    {
+                        var secondInteractable = _colliders[0].GetComponent<ISecondInteractable>();
+                        _secondPromptText.text = _setText.SetSecondText(secondInteractable.SecondInteractionPrompt);
+                        _secondPromptGameobject.SetActive(true);
+
+                        if (secondInteractable != null && _playerInput.Player.SecondInteract.triggered)
+                        {
+                            secondInteractable.SecondInteract(this);
+                        }
+                    }
                 }
             }
             else
             {
                 _promptGameobject.SetActive(false);
+                _secondPromptGameobject.SetActive(false);
 
                 if (_timeScaler.IsBoonsUIActive)
                 {
@@ -84,6 +100,8 @@ public class Interactor : MonoBehaviour
         {
             //Debug.LogWarning("For some reason this is causing the shit");
             _promptGameobject.SetActive(false);
+            _secondPromptGameobject.SetActive(false);
+
 
             if (_timeScaler.IsBoonsUIActive)
             {

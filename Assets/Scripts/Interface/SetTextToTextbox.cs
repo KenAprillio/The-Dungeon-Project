@@ -49,7 +49,21 @@ public class SetTextToTextbox : MonoBehaviour
         return outMessage;
     }
 
+    public string SetSecondText(string message)
+    {
+        if ((int)_deviceType > _listOfTmpSpriteAssets.SpriteAssets.Count - 1)
+        {
+            Debug.Log($"Missing Sprite Asset for {_deviceType}");
+            return null;
+        }
 
+        string outMessage = CompleteTextWithButtonPromptSprite.ReadAndReplaceBinding(
+            message,
+            _playerInput.Player.SecondInteract.bindings[(int)_deviceType],
+            _listOfTmpSpriteAssets.SpriteAssets[(int)_deviceType]);
+
+        return outMessage;
+    }
 
     private enum DeviceType
     {

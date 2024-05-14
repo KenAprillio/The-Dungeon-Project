@@ -41,23 +41,30 @@ public class PlayerHitState : PlayerBaseState
             Ctx.Animator.ResetTrigger("isHit");
             Ctx.IsHit = false;
 
-            if (!Ctx.IsMovementPressed)
+            if (Ctx.IsDead)
             {
-                SwitchState(Factory.Idle());
+                SwitchState(Factory.Death());
             }
-            else if (Ctx.IsMovementPressed)
+            else
             {
-                SwitchState(Factory.Run());
-            }
+                if (!Ctx.IsMovementPressed)
+                {
+                    SwitchState(Factory.Idle());
+                }
+                else if (Ctx.IsMovementPressed)
+                {
+                    SwitchState(Factory.Run());
+                }
 
-            if (Ctx.IsDashPressed && Ctx.IsAbleToDash)
-            {
-                SwitchState(Factory.Dash());
-            }
+                if (Ctx.IsDashPressed && Ctx.IsAbleToDash)
+                {
+                    SwitchState(Factory.Dash());
+                }
 
-            if (Ctx.IsAttackPressed)
-            {
-                SwitchState(Factory.Attack());
+                if (Ctx.IsAttackPressed)
+                {
+                    SwitchState(Factory.Attack());
+                }
             }
         }
 

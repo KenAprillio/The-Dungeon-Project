@@ -2,21 +2,31 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MonumentInteract : MonoBehaviour, IInteractable
+public class MonumentInteract : MonoBehaviour, IInteractable, ISecondInteractable
 {
     [SerializeField] private string _prompt;
+    [SerializeField] private string _secondPrompt;
+
     private EnemySpawner _enemySpawner;
     private TimeScaler _canvas;
+    private MonumentHealthScript _monumentHealthScript;
+    private AudioManager _audioManager;
+
     [SerializeField] private int _currentWave = 1;
     public bool IsEnabled = true;
+    [SerializeField] private bool _isFirstTime = true;
 
     public string InteractionPrompt => _prompt;
+    public string SecondInteractionPrompt => UpdateCost();
     public bool isEnabled => IsEnabled;
+
 
     private void Start()
     {
         _enemySpawner = EnemySpawner.Instance;
         _canvas = TimeScaler.Instance;
+        _monumentHealthScript = GetComponent<MonumentHealthScript>();
+        _audioManager = AudioManager.Instance;
     }
 
     public bool Interact(Interactor interactor)
@@ -28,7 +38,7 @@ public class MonumentInteract : MonoBehaviour, IInteractable
         }
         else
         {
-            _enemySpawner.SpawnEnemies(_currentWave, 3);
+            _enemySpawner.SpawnEnemies(_currentWave);
             _enemySpawner.IsWaveOngoing = true;
             Debug.Log("Start Wave!");
 
@@ -37,9 +47,45 @@ public class MonumentInteract : MonoBehaviour, IInteractable
             string subText = "Kalahkan " + amountOfEnemies + " musuh!";
             _canvas.UpdateMainObjective(mainText, subText);
 
+            if (_isFirstTime)
+            {
+                _canvas.ShowAttackTutor();
+                _isFirstTime = false;
+            }
+
+            _audioManager.PlayMusic(_audioManager.mainMusic);
+
             _currentWave++;
             IsEnabled = false;
             return true;
         }
+    }
+
+    public bool SecondInteract(Interactor interactor)
+    {
+        var player = interactor.GetComponent<PlayerHealthManager>();
+
+        if (player.PlayerKredits < _monumentHealthScript.FinalFixCost)
+        {
+            return false;
+        }
+        else
+        {
+            bool isFixable = _monumentHealthScript.MonumentHealthFix();
+            if (isFixable)
+            {
+                player.PlayerKredits -= _monumentHealthScript.FinalFixCost;
+                player.UpdateKredits();
+            }
+            Debug.Log("Is the monument fixable? " + isFixable);
+            return isFixable;
+        }
+    }
+
+    string UpdateCost()
+    {
+        string newPrompt = _secondPrompt.Replace(
+            "FIX_AMOUNT", _monumentHealthScript.UpdateCost().ToString());
+        return newPrompt;
     }
 }

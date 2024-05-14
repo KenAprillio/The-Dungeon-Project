@@ -18,6 +18,8 @@ public class BoonSelector : MonoBehaviour
 
     [SerializeField] private TimeScaler _timeScaler;
 
+    [SerializeField] private PlayerHealthManager _playerHealthManager;
+
 
     private void Start()
     {
@@ -27,7 +29,6 @@ public class BoonSelector : MonoBehaviour
             _totalBoonWeight += ObtainableBoons[i].Weight;
         }
     }
-
     private void OnEnable()
     {
         // Pause the game when choosing boons
@@ -45,7 +46,6 @@ public class BoonSelector : MonoBehaviour
 
         firstBoonButton.UpdateButton();
         secondBoonButton.UpdateButton();
-
     }
 
     public void SelectedBoon()
@@ -56,6 +56,10 @@ public class BoonSelector : MonoBehaviour
         _tempBoonNumber = -1;
         EnemySpawner.Instance.IsWaveOngoing = false;
         _boonCollectible.SetActive(false);
+
+        _playerHealthManager.RecoverPlayer();
+
+        _timeScaler.UpdateSubObjective("Bangun pelindung atau mulai wave!");
 
         StartCoroutine(nameof(DisableThis));
     }
@@ -77,18 +81,8 @@ public class BoonSelector : MonoBehaviour
 
         for (int i = 0; i < totalBoons; i++)
         {
-            /*// Check if the choosen boon is already picked
-            if (randomBoon != _tempBoonNumber)
-            {
-                // Calculate the boon weight
-                randomPickWeight -= ObtainableBoons[randomBoon].Weight;
-                if (randomPickWeight < 0)
-                {
-                    // if calculated boon weight is below 0, then pick that boon
-                    _tempBoonNumber = randomBoon;
-                    return ObtainableBoons[randomBoon];
-                }
-            }*/
+            // Check if the choosen boon is already picked
+            
 
             while (randomBoon == _tempBoonNumber)
             {

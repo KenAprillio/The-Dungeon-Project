@@ -42,6 +42,15 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "SecondInteract",
+                    "type": "Button",
+                    "id": "817cd75b-136c-4065-8e0d-497601c68da6",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "Pause",
                     "type": "Button",
                     "id": "a8dd1271-e80d-4905-a090-e880f9c30767",
@@ -57,7 +66,7 @@
                     "id": "be553290-c401-467f-b550-be4e7de3fc2c",
                     "path": "2DVector",
                     "interactions": "",
-                    "processors": "",
+                    "processors": "NormalizeVector2",
                     "groups": "",
                     "action": "Movement",
                     "isComposite": true,
@@ -159,6 +168,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Pause",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "59cce205-38ee-4c33-b311-59fc7048fa8f",
+                    "path": "<Keyboard>/f",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SecondInteract",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

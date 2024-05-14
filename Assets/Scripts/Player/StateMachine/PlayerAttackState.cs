@@ -15,15 +15,17 @@ public class PlayerAttackState : PlayerBaseState
     int comboCounter;
     public override void EnterState()
     {
-        Ctx.AppliedMovementX = 0;
-        Ctx.AppliedMovementY = 0;
-        Ctx.IsAttacking = true;
+        /*Ctx.AppliedMovementX = 0;
+        Ctx.AppliedMovementY = 0;*/
+        //Ctx.IsAttacking = true;
 
         FaceMouse();
     }
 
     public override void UpdateState()
     {
+        Ctx.AppliedMovementX = Ctx.CurrentMovementInput.x;
+        Ctx.AppliedMovementY = Ctx.CurrentMovementInput.y;
         if (Ctx.IsAttackPressed)
         {
             FaceMouse();
@@ -78,8 +80,7 @@ public class PlayerAttackState : PlayerBaseState
         {
             if (Time.time - lastClickedTime >= .3f)
             {
-                Ctx.AppliedMovementX = 0;
-                Ctx.AppliedMovementY = 0;
+                
                 Ctx.Animator.runtimeAnimatorController = Ctx.ComboList[comboCounter].animatorOV;
                 Ctx.CurrentDamage = Ctx.ComboList[comboCounter].damage;
                 Ctx.Animator.Play("Attack", 0, 0);
@@ -111,10 +112,6 @@ public class PlayerAttackState : PlayerBaseState
         {
             position = new Vector3(floorHit.point.x, 0f, floorHit.point.z);
             position.y = Ctx.transform.position.y;
-        }
-        else
-        {
-            position = Ctx.transform.position;
         }
 
         

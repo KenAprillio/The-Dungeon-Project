@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: List of Sprite Assets
   m_EditorClassIdentifier: 
   SpriteAssets:
-  - {fileID: 11400000, guid: c47a9352c7207b84b966926c379b0e5c, type: 2}
+  - {fileID: 11400000, guid: 00972cc9420c3aa4bb2c8b801937abaf, type: 2}

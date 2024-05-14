@@ -14,11 +14,17 @@ public static class CompleteTextWithButtonPromptSprite
         textToDisplay = textToDisplay.Replace(
             "BUTTONPROMPT", $"<sprite=\"{spriteAsset.name}\" name=\"{stringButtonName}\">");
 
+        textToDisplay = textToDisplay.Replace(
+            "ICON_COIN", "<sprite=\"kredits\" name=\"kredits_icon\">");
+
         return textToDisplay;
     }
 
     private static string RenameInput(string stringButtonName)
     {
+        stringButtonName = stringButtonName.Replace(
+            "SecondInteract:", string.Empty);
+
         stringButtonName = stringButtonName.Replace(
             "Interact:", string.Empty);
 
